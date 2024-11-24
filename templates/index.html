@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de BTUs</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de BTUs</h1>
+        <form method="POST">
+            <h2>Temperaturas</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="temperatura_interna">Temp. Interna (°C):</label>
+                    <input id="temperatura_interna" type="number" name="temperatura_interna" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="temperatura_externa">Temp. Externa (°C):</label>
+                    <input id="temperatura_externa" type="number" name="temperatura_externa" step="0.1" required>
+                </div>
+            </div>
+
+            <h2>Paredes</h2>
+            {% for i in range(6) %}
+                <h3>Parede {{ i + 1 }}</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="material_{{ i }}">Material:</label>
+                        <select id="material_{{ i }}" name="material_{{ i }}">
+                            {% for material in materiais %}
+                                <option value="{{ material }}">{{ material }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="area_{{ i }}">Área (m²):</label>
+                        <input id="area_{{ i }}" type="number" name="area_{{ i }}" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="espessura_{{ i }}">Espessura (m):</label>
+                        <input id="espessura_{{ i }}" type="number" name="espessura_{{ i }}" step="0.01" required>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <h2>Lâmpadas</h2>
+            {% for i in range(2) %}
+                <h3>Lâmpada {{ i + 1 }}</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="lampada_tipo_{{ i }}">Tipo:</label>
+                        <select id="lampada_tipo_{{ i }}" name="lampada_tipo_{{ i }}">
+                            {% for tipo in lampadas %}
+                                <option value="{{ tipo }}">{{ tipo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lampada_quantidade_{{ i }}">Quantidade:</label>
+                        <input id="lampada_quantidade_{{ i }}" type="number" name="lampada_quantidade_{{ i }}" min="0" required>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <h2>Outros Fatores</h2>
+            <div class="form-group">
+                <label for="pessoas">Número de Pessoas:</label>
+                <input id="pessoas" type="number" name="pessoas" min="0" required>
+            </div>
+
+            <button type="submit">Calcular</button>
+        </form>
+        
+        {% if resultado_btu %}
+            <h2>Resultado</h2>
+            <p>BTUs Necessários: {{ resultado_btu }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
